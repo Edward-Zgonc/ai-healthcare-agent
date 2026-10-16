@@ -1,0 +1,18 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "never"
+  },
+  "prettier.requireConfig": true,
+  "files.associations": {
+    ".gitmessage": "plaintext"
+  },
+  "[git-commit]": {
+    "editor.rulers": [50, 72]
+  },
+  "eslint.run": "onSave",
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+  "js/ts.validate.enabled": true,
+  "json.validate.enable": true
+}

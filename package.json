@@ -1,0 +1,39 @@
+{
+  "name": "ai-healthcare-agent",
+  "version": "1.0.0",
+  "description": "A full-stack AI healthcare agent using TypeScript, FHIR, Snowflake, and MCP.",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "client",
+    "server",
+    "mcp-server"
+  ],
+  "scripts": {
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Edward-Zgonc/ai-healthcare-agent.git"
+  },
+  "author": "Edward Zgonc",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Edward-Zgonc/ai-healthcare-agent/issues"
+  },
+  "homepage": "https://github.com/Edward-Zgonc/ai-healthcare-agent#readme",
+  "allowScripts": {
+    "esbuild@0.28.2": true,
+    "fsevents@2.3.3": true
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.13.0",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.13.0",
+    "prettier": "^3.9.10",
+    "typescript-eslint": "^8.71.2"
+  }
+}
