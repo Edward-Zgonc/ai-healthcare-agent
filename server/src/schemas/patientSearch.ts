@@ -1,0 +1,35 @@
+import { z } from 'zod';
+
+export const PatientSearchParamsSchema = z.object({
+  given: z.string().optional(),
+  family: z.string().optional(),
+  gender: z.enum(['male', 'female', 'other', 'unknown']).optional(),
+  birthdate: z.string().optional(),
+  identifier: z.string().optional(),
+  name: z.string().optional(),
+  address: z.string().optional(),
+  'address-city': z.string().optional(),
+  'address-state': z.string().optional(),
+  'address-postalcode': z.string().optional(),
+  telecom: z.string().optional(),
+  'legal-sex': z.string().optional(),
+  'own-name': z.string().optional(),
+  'own-prefix': z.string().optional(),
+  'partner-name': z.string().optional(),
+  'partner-prefix': z.string().optional(),
+  _count: z.number().int().positive().optional(),
+  _id: z.string().optional(),
+  _include: z.string().optional(),
+  _revinclude: z.string().optional(),
+  active: z.boolean().optional(),
+  'address-use': z.string().optional(),
+  'death-date': z.string().optional(),
+  email: z.string().optional(),
+  'general-practitioner': z.string().optional(),
+  language: z.string().optional(),
+  link: z.string().optional(),
+  organization: z.string().optional(),
+  phone: z.string().optional(),
+});
+
+export type PatientSearchParams = z.infer<typeof PatientSearchParamsSchema>;
