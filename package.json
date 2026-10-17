@@ -10,6 +10,7 @@
     "mcp-server"
   ],
   "scripts": {
+    "setup": "bash scripts/setup.sh",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check ."

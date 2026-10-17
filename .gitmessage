@@ -1,0 +1,41 @@
+
+# Conventional Commit Template
+#
+# Format:
+# <type>(<optional-scope>): <short description>
+#
+# Leave a blank line, then optionally add a multiline body.
+# Use the imperative mood: "add", "fix", "update", not "added".
+#
+# Example:
+# feat(auth): add session-based authentication
+#
+# - Implement session creation and validation
+# - Add secure HTTP-only cookies
+# - Add authentication tests
+#
+# -------------------------------
+# Commit Types
+# -------------------------------
+# feat      New feature
+# fix       Bug fix
+# chore     Maintenance, dependencies, tooling
+# docs      Documentation changes
+# style     Formatting only (no behavior changes)
+# refactor  Code restructuring (no behavior changes)
+# test      Add or modify tests
+# perf      Performance improvements
+# build     Build system or dependency changes
+# ci        Continuous integration or deployment
+# revert    Revert a previous commit
+#
+# -------------------------------
+# Guidelines
+# -------------------------------
+# - Keep the subject concise (ideally 50 characters).
+# - Do not end the subject with a period.
+# - Separate the subject and body with a blank line.
+# - Explain what changed and why in the body.
+# - Wrap body lines at approximately 72 characters.
+# - The scope is optional: feat: ... and feat(auth): ... are valid.
+# - All lines beginning with # are comments and won't be committed.
