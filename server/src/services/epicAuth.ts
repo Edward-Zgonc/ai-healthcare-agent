@@ -31,7 +31,36 @@ export async function createClientAssertion(): Promise<string> {
     .sign(privateKey);
 }
 
+let cachedAccessToken: string | null = null;
+let tokenExpiresAt = 0;
+let pendingTokenRequest: Promise<string> | null = null;
+
+/* We handle concurrent token requests by first checking for a valid cached token. If another authentication request is already in progress, we reuse its Promise rather than sending a duplicate request to Epic. Otherwise, we start a new request. We use a finally block to clear the pending Promise once it settles, preventing future calls from reusing a resolved Promise that could contain an expired token. One additional benefit: The finally block also clears the Promise if authentication fails, allowing subsequent calls to retry. */
 export async function getEpicAccessToken(): Promise<string> {
+  // Return the cached token if it's still valid.
+
+  if (cachedAccessToken && Date.now() < tokenExpiresAt) {
+    return cachedAccessToken;
+  }
+
+  // Reuse an authentication request already in progress.
+
+  if (pendingTokenRequest) {
+    return pendingTokenRequest;
+  }
+
+  // Start a new authentication request and store its Promise.
+
+  pendingTokenRequest = requestNewAccessToken();
+
+  try {
+    return await pendingTokenRequest;
+  } finally {
+    pendingTokenRequest = null;
+  }
+}
+
+async function requestNewAccessToken(): Promise<string> {
   const clientAssertion = await createClientAssertion();
 
   const body = new URLSearchParams({
@@ -55,5 +84,9 @@ export async function getEpicAccessToken(): Promise<string> {
 
   const data = EpicTokenResponseSchema.parse(await response.json());
 
-  return data.access_token;
+  console.log('Epic access token expires in:', data.expires_in, 'seconds');
+  // Cache the token until 60 seconds before expiration.
+  cachedAccessToken = data.access_token;
+  tokenExpiresAt = Date.now() + Math.max(0, (data.expires_in ?? 0) - 60) * 1000;
+  return cachedAccessToken;
 }
