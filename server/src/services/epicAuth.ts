@@ -2,6 +2,7 @@ import { readFile } from 'node:fs/promises';
 import { randomUUID } from 'node:crypto';
 import { importPKCS8, SignJWT } from 'jose';
 import { EpicTokenResponseSchema } from '../schemas/epicAuth.js';
+import AppError from '../errors/AppError.js';
 
 const EPIC_TOKEN_URL = 'https://fhir.epic.com/interconnect-fhir-oauth/oauth2/token';
 
@@ -9,7 +10,9 @@ export async function createClientAssertion(): Promise<string> {
   const clientId = process.env.EPIC_CLIENT_ID;
 
   if (!clientId) {
-    throw new Error('EPIC_CLIENT_ID is not configured.');
+    throw new AppError('Epic authentication configuration error', 500, {
+      log: 'epicAuth.createClientAssertion: EPIC_CLIENT_ID is not configured',
+    });
   }
 
   const privateKeyPath = new URL('../../keys/private.pem', import.meta.url);
@@ -35,7 +38,7 @@ let cachedAccessToken: string | null = null;
 let tokenExpiresAt = 0;
 let pendingTokenRequest: Promise<string> | null = null;
 
-/* We handle concurrent token requests by first checking for a valid cached token. If another authentication request is already in progress, we reuse its Promise rather than sending a duplicate request to Epic. Otherwise, we start a new request. We use a finally block to clear the pending Promise once it settles, preventing future calls from reusing a resolved Promise that could contain an expired token. One additional benefit: The finally block also clears the Promise if authentication fails, allowing subsequent calls to retry. */
+/* This handles concurrent token requests by first checking for a valid cached token. If another authentication request is already in progress, reuse its Promise rather than sending a duplicate request to Epic. Otherwise, start a new request. The finally block clears the pending Promise once it settles, preventing future calls from reusing a resolved Promise that could contain an expired token. One additional benefit: The finally block also clears the Promise if authentication fails, allowing subsequent calls to retry. */
 export async function getEpicAccessToken(): Promise<string> {
   // Return the cached token if it's still valid.
 
@@ -79,7 +82,9 @@ async function requestNewAccessToken(): Promise<string> {
   });
 
   if (!response.ok) {
-    throw new Error(`Epic OAuth failed (${response.status}): ${await response.text()}`);
+    throw new AppError('Unable to authenticate with Epic', 502, {
+      log: `epicAuth.requestNewAccessToken: Epic returned HTTP ${response.status}`,
+    });
   }
 
   const data = EpicTokenResponseSchema.parse(await response.json());

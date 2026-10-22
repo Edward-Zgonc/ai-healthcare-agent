@@ -3,7 +3,7 @@ import { z } from 'zod';
 export const PatientSearchParamsSchema = z.object({
   given: z.string().optional(),
   family: z.string().optional(),
-  gender: z.enum(['male', 'female', 'other', 'unknown']).optional(),
+  gender: z.string().optional(),
   birthdate: z.string().optional(),
   identifier: z.string().optional(),
   name: z.string().optional(),
