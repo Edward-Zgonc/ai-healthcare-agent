@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    // Node.js + ES Modules
+    "module": "nodenext",
+    "target": "esnext",
+    "lib": ["esnext"],
+    "types": ["node"],
+
+    // Development
+    "sourceMap": true,
+
+    // Type Safety
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+
+    // Module Safety
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "noUncheckedSideEffectImports": true,
+
+    // Performance
+    "skipLibCheck": true
+  }
+}
