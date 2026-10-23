@@ -6,8 +6,7 @@
   "type": "module",
   "workspaces": [
     "client",
-    "server",
-    "mcp-server"
+    "server"
   ],
   "scripts": {
     "setup": "bash scripts/setup.sh",
