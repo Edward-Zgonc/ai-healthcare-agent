@@ -29,7 +29,11 @@ server.registerTool(
 server.registerTool(
   'search_patients',
   {
-    description: 'Search for patients in Epic using FHIR search parameters.',
+    description:
+      'Search for patients in Epic using FHIR search parameters. Requires one of: ' +
+      '(1) identifier (identifier or system|identifier); ' +
+      '(2) given + family + birthdate; ' +
+      '(3) given + family + legal-sex + (phone or email).',
     inputSchema: PatientSearchParamsSchema,
   },
   async (params) => {
